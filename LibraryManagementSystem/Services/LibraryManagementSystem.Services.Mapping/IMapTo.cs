@@ -1,0 +1,7 @@
+﻿namespace LibraryManagementSystem.Services.Mapping
+{
+    // ReSharper disable once UnusedTypeParameter
+    public interface IMapTo<T>
+    {
+    }
+}
