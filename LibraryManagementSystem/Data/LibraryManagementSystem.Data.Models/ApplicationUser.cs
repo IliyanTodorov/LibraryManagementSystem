@@ -3,6 +3,8 @@ namespace LibraryManagementSystem.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using LibraryManagementSystem.Data.Common.Models;
 
@@ -17,6 +19,28 @@ namespace LibraryManagementSystem.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        public string Address { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public override string Email { get; set; }
+
+        [Required]
+        public override string PhoneNumber { get; set; }
+
+        [ForeignKey(nameof(LibraryCard))]
+        public int? LibrartCardId { get; set; }
+
+        public virtual LibraryCard LibraryCard { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

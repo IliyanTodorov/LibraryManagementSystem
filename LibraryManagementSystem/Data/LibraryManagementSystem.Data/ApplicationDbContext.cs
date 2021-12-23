@@ -8,7 +8,8 @@
 
     using LibraryManagementSystem.Data.Common.Models;
     using LibraryManagementSystem.Data.Models;
-
+    using LibraryManagementSystem.Data.Models.Assets;
+    using LibraryManagementSystem.Data.Models.Assets.Tags;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,18 @@
         {
         }
 
-        // DB Sets Here
+        public DbSet<AvailabilityStatus> AvailabilityStatuses { get; set; }
+
+        public DbSet<Checkout> Checkouts { get; set; }
+
+        public DbSet<Asset> Assets { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<LibraryBranch> LibraryBranches { get; set; }
+
+        public DbSet<LibraryCard> LibraryCards { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -46,6 +58,9 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<AssetTag>()
+                .HasKey(at => new { at.AssetId, at.TagId });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
