@@ -6,12 +6,15 @@
     using LibraryManagementSystem.Data.Common;
     using LibraryManagementSystem.Data.Common.Repositories;
     using LibraryManagementSystem.Data.Models;
+    using LibraryManagementSystem.Data.Models.Assets;
     using LibraryManagementSystem.Data.Repositories;
     using LibraryManagementSystem.Data.Seeding;
+    using LibraryManagementSystem.Services.Data;
+    using LibraryManagementSystem.Services.Data.Contracts;
     using LibraryManagementSystem.Services.Mapping;
     using LibraryManagementSystem.Services.Messaging;
     using LibraryManagementSystem.Web.ViewModels;
-
+    using LibraryManagementSystem.Web.ViewModels.Assets;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -63,6 +66,7 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<ILibraryAssetsService, LibraryAssetsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

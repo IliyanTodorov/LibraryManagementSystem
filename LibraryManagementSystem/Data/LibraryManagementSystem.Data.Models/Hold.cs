@@ -10,7 +10,7 @@
     {
         public virtual DateTime HoldPlaced { get; set; }
 
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime? UpdatedOn { get; set; }
 
         [ForeignKey(nameof(Asset))]
         public Guid AssetId { get; set; }

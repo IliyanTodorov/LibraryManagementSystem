@@ -25,11 +25,17 @@
         {
         }
 
+        public DbSet<Patron> Patrons { get; set; }
+
+        public DbSet<Asset> LibraryAssets { get; set; }
+
+        public DbSet<Book> Books { get; set; }
+
+        public DbSet<AudioBook> AudioBooks { get; set; }
+
         public DbSet<AvailabilityStatus> AvailabilityStatuses { get; set; }
 
         public DbSet<Checkout> Checkouts { get; set; }
-
-        public DbSet<Asset> Assets { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
 
@@ -72,7 +78,9 @@
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+            .Where(et => et.ClrType != null
+                && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType)
+                && et.BaseType == null);
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);

@@ -6,7 +6,7 @@
 
     using LibraryManagementSystem.Data.Common.Models;
 
-    public class Book : Asset
+    public class AudioBook : Asset
     {
         [Required]
         public string Title { get; set; }
@@ -15,9 +15,11 @@
         public string Author { get; set; }
 
         [Required]
-        public string ISBN { get; set; }
+        public string ASIN { get; set; }
 
         public int PublicationYear { get; set; }
+
+        public int LengthMinutes { get; set; }
 
         public string Edition { get; set; }
 

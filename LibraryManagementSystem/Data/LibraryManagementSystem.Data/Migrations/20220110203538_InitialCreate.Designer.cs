@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211223104221_Initial entity models")]
-    partial class Initialentitymodels
+    [Migration("20220110203538_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,6 +188,10 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -208,7 +212,9 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("LibraryBranchId");
 
-                    b.ToTable("Asset");
+                    b.ToTable("LibraryAssets");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Asset");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Assets.Tags.AssetTag", b =>
@@ -252,7 +258,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.AvailabilityStatus", b =>
@@ -286,7 +292,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("AvailabilityStatus");
+                    b.ToTable("AvailabilityStatuses");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.Checkout", b =>
@@ -328,7 +334,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("LibraryCardId");
 
-                    b.ToTable("Checkout");
+                    b.ToTable("Checkouts");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.LibraryBranch", b =>
@@ -375,7 +381,7 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("LibraryBranch");
+                    b.ToTable("LibraryBranches");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.LibraryCard", b =>
@@ -410,7 +416,64 @@ namespace LibraryManagementSystem.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("LibraryCard");
+                    b.ToTable("LibraryCards");
+                });
+
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.Patron", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HomeLibraryBranchId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LibraryCardId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Telephone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeLibraryBranchId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LibraryCardId");
+
+                    b.ToTable("Patrons");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -517,6 +580,102 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.Assets.AudioBook", b =>
+                {
+                    b.HasBaseType("LibraryManagementSystem.Data.Models.Assets.Asset");
+
+                    b.Property<string>("ASIN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("AssetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeweyIndex")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Edition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LengthMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PublicationYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("AssetId");
+
+                    b.HasDiscriminator().HasValue("AudioBook");
+                });
+
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.Assets.Book", b =>
+                {
+                    b.HasBaseType("LibraryManagementSystem.Data.Models.Assets.Asset");
+
+                    b.Property<Guid>("AssetId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Book_AssetId");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_Author");
+
+                    b.Property<string>("DeweyIndex")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_DeweyIndex");
+
+                    b.Property<string>("Edition")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_Edition");
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_Language");
+
+                    b.Property<int>("PublicationYear")
+                        .HasColumnType("int")
+                        .HasColumnName("Book_PublicationYear");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_Publisher");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_Summary");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Book_Title");
+
+                    b.HasIndex("AssetId");
+
+                    b.HasDiscriminator().HasValue("Book");
+                });
+
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("LibraryManagementSystem.Data.Models.LibraryCard", "LibraryCard")
@@ -587,6 +746,21 @@ namespace LibraryManagementSystem.Data.Migrations
                     b.Navigation("LibraryCard");
                 });
 
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.Patron", b =>
+                {
+                    b.HasOne("LibraryManagementSystem.Data.Models.LibraryBranch", "HomeLibraryBranch")
+                        .WithMany()
+                        .HasForeignKey("HomeLibraryBranchId");
+
+                    b.HasOne("LibraryManagementSystem.Data.Models.LibraryCard", "LibraryCard")
+                        .WithMany()
+                        .HasForeignKey("LibraryCardId");
+
+                    b.Navigation("HomeLibraryBranch");
+
+                    b.Navigation("LibraryCard");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("LibraryManagementSystem.Data.Models.ApplicationRole", null)
@@ -636,6 +810,28 @@ namespace LibraryManagementSystem.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.Assets.AudioBook", b =>
+                {
+                    b.HasOne("LibraryManagementSystem.Data.Models.Assets.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Asset");
+                });
+
+            modelBuilder.Entity("LibraryManagementSystem.Data.Models.Assets.Book", b =>
+                {
+                    b.HasOne("LibraryManagementSystem.Data.Models.Assets.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Asset");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Data.Models.ApplicationUser", b =>

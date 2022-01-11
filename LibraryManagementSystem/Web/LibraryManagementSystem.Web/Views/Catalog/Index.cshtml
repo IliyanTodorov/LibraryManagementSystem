@@ -1,0 +1,35 @@
+﻿@model LibraryManagementSystem.Web.ViewModels.Assets.AssetsListViewModel
+@using LibraryManagementSystem.Common
+
+@{
+    this.ViewData["Title"] = "Catalog";
+
+    int i = 1;
+}
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author/Director</th>
+            <th scope="col">Dewey Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var asset in Model.Assets)
+        {
+            <tr>
+                <th scope="row">@i</th>
+                <td>
+                    <img src="@asset.ImageUrl" alt="Alternate Text" class="imageCell" />
+                </td>
+                <td>@asset.Title</td>
+                <td>@asset.AuthorOrDirector</td>
+                <td>@asset.DeweyCallNumber</td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

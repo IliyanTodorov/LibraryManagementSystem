@@ -7,7 +7,7 @@
     using LibraryManagementSystem.Data.Common.Models;
     using LibraryManagementSystem.Data.Models.Assets.Tags;
 
-    public class Asset : BaseDeletableModel<Guid>
+    public abstract class Asset : BaseDeletableModel<Guid>
     {
         public Asset()
         {

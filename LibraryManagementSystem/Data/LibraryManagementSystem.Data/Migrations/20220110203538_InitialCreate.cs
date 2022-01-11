@@ -1,10 +1,9 @@
-﻿namespace LibraryManagementSystem.Data.Migrations
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace LibraryManagementSystem.Data.Migrations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore.Migrations;
-
-    public partial class Initialentitymodels : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +18,7 @@
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +26,7 @@
                 });
 
             migrationBuilder.CreateTable(
-                name: "AvailabilityStatus",
+                name: "AvailabilityStatuses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -37,15 +36,15 @@
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AvailabilityStatus", x => x.Id);
+                    table.PrimaryKey("PK_AvailabilityStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LibraryBranch",
+                name: "LibraryBranches",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -59,15 +58,15 @@
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LibraryBranch", x => x.Id);
+                    table.PrimaryKey("PK_LibraryBranches", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LibraryCard",
+                name: "LibraryCards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -78,15 +77,15 @@
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LibraryCard", x => x.Id);
+                    table.PrimaryKey("PK_LibraryCards", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tag",
+                name: "Tags",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -95,11 +94,11 @@
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag", x => x.Id);
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,7 +109,7 @@
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,7 +123,7 @@
                 });
 
             migrationBuilder.CreateTable(
-                name: "Asset",
+                name: "LibraryAssets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -132,24 +131,58 @@
                     Cost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LibraryBranchId = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ASIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublicationYear = table.Column<int>(type: "int", nullable: true),
+                    LengthMinutes = table.Column<int>(type: "int", nullable: true),
+                    Edition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Publisher = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeweyIndex = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Book_Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_PublicationYear = table.Column<int>(type: "int", nullable: true),
+                    Book_Edition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_Publisher = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_DeweyIndex = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Book_AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Asset", x => x.Id);
+                    table.PrimaryKey("PK_LibraryAssets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Asset_AvailabilityStatus_AvailabilityStatusId",
+                        name: "FK_LibraryAssets_AvailabilityStatuses_AvailabilityStatusId",
                         column: x => x.AvailabilityStatusId,
-                        principalTable: "AvailabilityStatus",
+                        principalTable: "AvailabilityStatuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Asset_LibraryBranch_LibraryBranchId",
+                        name: "FK_LibraryAssets_LibraryAssets_AssetId",
+                        column: x => x.AssetId,
+                        principalTable: "LibraryAssets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LibraryAssets_LibraryAssets_Book_AssetId",
+                        column: x => x.Book_AssetId,
+                        principalTable: "LibraryAssets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LibraryAssets_LibraryBranches_LibraryBranchId",
                         column: x => x.LibraryBranchId,
-                        principalTable: "LibraryBranch",
+                        principalTable: "LibraryBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -182,21 +215,56 @@
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_LibraryBranch_LibraryBranchId",
+                        name: "FK_AspNetUsers_LibraryBranches_LibraryBranchId",
                         column: x => x.LibraryBranchId,
-                        principalTable: "LibraryBranch",
+                        principalTable: "LibraryBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_LibraryCard_LibrartCardId",
+                        name: "FK_AspNetUsers_LibraryCards_LibrartCardId",
                         column: x => x.LibrartCardId,
-                        principalTable: "LibraryCard",
+                        principalTable: "LibraryCards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patrons",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LibraryCardId = table.Column<int>(type: "int", nullable: true),
+                    HomeLibraryBranchId = table.Column<int>(type: "int", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patrons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Patrons_LibraryBranches_HomeLibraryBranchId",
+                        column: x => x.HomeLibraryBranchId,
+                        principalTable: "LibraryBranches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patrons_LibraryCards_LibraryCardId",
+                        column: x => x.LibraryCardId,
+                        principalTable: "LibraryCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -206,27 +274,27 @@
                 columns: table => new
                 {
                     TagId = table.Column<int>(type: "int", nullable: false),
-                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AssetTag", x => new { x.AssetId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_AssetTag_Asset_AssetId",
+                        name: "FK_AssetTag_LibraryAssets_AssetId",
                         column: x => x.AssetId,
-                        principalTable: "Asset",
+                        principalTable: "LibraryAssets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AssetTag_Tag_TagId",
+                        name: "FK_AssetTag_Tags_TagId",
                         column: x => x.TagId,
-                        principalTable: "Tag",
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Checkout",
+                name: "Checkouts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -238,21 +306,21 @@
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Checkout", x => x.Id);
+                    table.PrimaryKey("PK_Checkouts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Checkout_Asset_AssetId",
+                        name: "FK_Checkouts_LibraryAssets_AssetId",
                         column: x => x.AssetId,
-                        principalTable: "Asset",
+                        principalTable: "LibraryAssets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Checkout_LibraryCard_LibraryCardId",
+                        name: "FK_Checkouts_LibraryCards_LibraryCardId",
                         column: x => x.LibraryCardId,
-                        principalTable: "LibraryCard",
+                        principalTable: "LibraryCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -265,7 +333,7 @@
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -285,7 +353,7 @@
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,7 +371,7 @@
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -329,7 +397,7 @@
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -404,58 +472,83 @@
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Asset_AvailabilityStatusId",
-                table: "Asset",
-                column: "AvailabilityStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Asset_IsDeleted",
-                table: "Asset",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Asset_LibraryBranchId",
-                table: "Asset",
-                column: "LibraryBranchId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AssetTag_TagId",
                 table: "AssetTag",
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AvailabilityStatus_IsDeleted",
-                table: "AvailabilityStatus",
+                name: "IX_AvailabilityStatuses_IsDeleted",
+                table: "AvailabilityStatuses",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Checkout_AssetId",
-                table: "Checkout",
+                name: "IX_Checkouts_AssetId",
+                table: "Checkouts",
                 column: "AssetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Checkout_IsDeleted",
-                table: "Checkout",
+                name: "IX_Checkouts_IsDeleted",
+                table: "Checkouts",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Checkout_LibraryCardId",
-                table: "Checkout",
+                name: "IX_Checkouts_LibraryCardId",
+                table: "Checkouts",
                 column: "LibraryCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LibraryBranch_IsDeleted",
-                table: "LibraryBranch",
+                name: "IX_LibraryAssets_AssetId",
+                table: "LibraryAssets",
+                column: "AssetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LibraryAssets_AvailabilityStatusId",
+                table: "LibraryAssets",
+                column: "AvailabilityStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LibraryAssets_Book_AssetId",
+                table: "LibraryAssets",
+                column: "Book_AssetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LibraryAssets_IsDeleted",
+                table: "LibraryAssets",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LibraryCard_IsDeleted",
-                table: "LibraryCard",
+                name: "IX_LibraryAssets_LibraryBranchId",
+                table: "LibraryAssets",
+                column: "LibraryBranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LibraryBranches_IsDeleted",
+                table: "LibraryBranches",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag_IsDeleted",
-                table: "Tag",
+                name: "IX_LibraryCards_IsDeleted",
+                table: "LibraryCards",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patrons_HomeLibraryBranchId",
+                table: "Patrons",
+                column: "HomeLibraryBranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patrons_IsDeleted",
+                table: "Patrons",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patrons_LibraryCardId",
+                table: "Patrons",
+                column: "LibraryCardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_IsDeleted",
+                table: "Tags",
                 column: "IsDeleted");
         }
 
@@ -480,7 +573,10 @@
                 name: "AssetTag");
 
             migrationBuilder.DropTable(
-                name: "Checkout");
+                name: "Checkouts");
+
+            migrationBuilder.DropTable(
+                name: "Patrons");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -489,19 +585,19 @@
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Asset");
+                name: "LibraryAssets");
 
             migrationBuilder.DropTable(
-                name: "LibraryCard");
+                name: "LibraryCards");
 
             migrationBuilder.DropTable(
-                name: "AvailabilityStatus");
+                name: "AvailabilityStatuses");
 
             migrationBuilder.DropTable(
-                name: "LibraryBranch");
+                name: "LibraryBranches");
         }
     }
 }
